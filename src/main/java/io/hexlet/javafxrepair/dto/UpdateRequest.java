@@ -1,8 +1,6 @@
 package io.hexlet.javafxrepair.dto;
 
 import io.hexlet.javafxrepair.model.Request;
-import io.hexlet.javafxrepair.model.User;
-import io.hexlet.javafxrepair.service.LoginService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +24,6 @@ public class UpdateRequest {
     private String phone;
 
     public UpdateRequest(Request request) {
-        User user = LoginService.getCurrentUser();
         id = request.getId();
         startDate = request.getStartDate();
         type = request.getType();

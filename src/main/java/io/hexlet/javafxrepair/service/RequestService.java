@@ -4,8 +4,11 @@ import io.hexlet.javafxrepair.RequestMapper;
 import io.hexlet.javafxrepair.dao.RequestDAO;
 import io.hexlet.javafxrepair.dto.RequestForm;
 import io.hexlet.javafxrepair.dto.UpdateRequest;
+import io.hexlet.javafxrepair.model.Comment;
 import io.hexlet.javafxrepair.model.Request;
 import io.hexlet.javafxrepair.model.User;
+
+import java.util.List;
 
 public class RequestService {
     public static void saveRequest(RequestForm requestForm) throws Exception {
@@ -27,5 +30,13 @@ public class RequestService {
         user.setPhone(updateRequest.getPhone());
         RequestDAO.save(request);
         UserService.updateUser(user);
+    }
+
+    public static List<Comment> getComments(Integer requestId) {
+        return RequestDAO.getRequestComments(requestId);
+    }
+
+    public static void saveComment(Comment comment) {
+        RequestDAO.saveComment(comment);
     }
 }

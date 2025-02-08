@@ -47,7 +47,6 @@ public class MainController {
             TableRow<Request> row = new TableRow<>();
             row.setOnMouseClicked(mouseEvent -> {
                 Request request = row.getItem();
-                System.out.println(request);
                 EditRequestController controller = new EditRequestController(request);
                 createWindow("edit-request.fxml", controller);
             });
@@ -58,59 +57,6 @@ public class MainController {
         tableColumn3.setCellValueFactory(new PropertyValueFactory<>("model"));
         tableColumn4.setCellValueFactory(new PropertyValueFactory<>("problemDescription"));
         tableColumn5.setCellValueFactory(new PropertyValueFactory<>("status"));
-//        tableColumn5.setCellFactory(new Callback<>() {
-//            @Override
-//            public TableCell<Request, String> call(TableColumn<Request, String> requestStringTableColumn) {
-//                var cbtc = new ChoiceBoxTableCell<Request, String>("Новая заявка", "В процессе ремонта", "Готово к выдаче") {
-//                    @Override
-//                    public void commitEdit(String s) {
-//                        super.commitEdit(s);
-//                        System.out.println("IT WORKS!");
-//                    }
-//                };
-//                return cbtc;
-//            }
-//        });
-
-//        tableColumn5.setOnEditCommit(c -> {
-//            c.getRowValue().setStatus(c.getNewValue());
-//        });
-
-//        tableColumn5.setCellFactory(ChoiceBoxTableCell.forTableColumn("Новая заявка", "В процессе ремонта", "Готово к выдаче"));
-//        tableColumn5.setCellValueFactory(requestStringCellDataFeatures -> {
-//            requestStringCellDataFeatures.getTableColumn().setCellFactory(requestStringTableColumn -> {
-//                var cell = new TableCell<Request, String>();
-//                var menu = new ContextMenu(new MenuItem("Новая заявка"),
-//                        new MenuItem("В процессе ремонта"),
-//                        new MenuItem("Готово к выдаче"));
-//                menu.getItems().forEach(menuItem -> menuItem.setOnAction(e -> cell.setText(menuItem.getText())));
-//                cell.setContextMenu(menu);
-//                return cell;
-//            });
-//            return new ObservableValueBase<>() {
-//                @Override
-//                public String getValue() {
-//                    return requestStringCellDataFeatures.getValue().getStatus();
-//                }
-//            };
-//        });
-//        tableColumn5.setCellFactory(requestStringTableColumn -> {
-//            var cell = new TableCell<Request, String>() {
-//                @Override
-//                protected void updateItem(String s, boolean b) {
-//                    super.updateItem(s, b);
-//                    if (!b) {
-//                        this.setText(s);
-//                    }
-//                }
-//            };
-//            var menu = new ContextMenu(new MenuItem("Новая заявка"),
-//                    new MenuItem("В процессе ремонта"),
-//                    new MenuItem("Готово к выдаче"));
-//            menu.getItems().forEach(menuItem -> menuItem.setOnAction(e -> cell.setText(menuItem.getText())));
-//            cell.setContextMenu(menu);
-//            return cell;
-//        });
 
         tableColumn6.setCellValueFactory(new PropertyValueFactory<>("finishDate"));
         tableColumn7.setCellValueFactory(new PropertyValueFactory<>("repairParts"));
@@ -121,19 +67,6 @@ public class MainController {
         addRequest.setOnMouseClicked(mouseEvent -> {
             createWindow("add-view.fxml", null);
         });
-
-//        tableColumn5.setCellFactory(new Callback<TableColumn<Request, String>, TableCell<Request, String>>() {
-//            @Override
-//            public TableCell<Request, String> call(TableColumn<Request, String> requestStringTableColumn) {
-//                var cell = new TableCell<Request, String>();
-//                var menu = new ContextMenu(new MenuItem("Новая заявка"),
-//                        new MenuItem("В процессе ремонта"),
-//                        new MenuItem("Готово к выдаче"));
-//                menu.getItems().forEach(menuItem -> menuItem.setOnAction(e -> cell.setText(menuItem.getText())));
-//                cell.setContextMenu(menu);
-//                return cell;
-//            }
-//        });
     }
 
     private void createWindow(String fxml, Object controller) {

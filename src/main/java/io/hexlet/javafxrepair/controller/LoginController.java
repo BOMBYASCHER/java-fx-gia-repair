@@ -5,13 +5,14 @@ import io.hexlet.javafxrepair.service.LoginService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static io.hexlet.javafxrepair.ErrorViewer.showError;
 
 public class LoginController {
     @FXML
@@ -40,10 +41,7 @@ public class LoginController {
                 stage.setScene(scene);
                 stage.show();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Please check your username and password.");
-                alert.setTitle("Incorrect login data");
-                alert.setHeaderText("Please check your data.");
-                alert.show();
+                showError("Проверьте логин и пароль.", "Ошибочные данные");
             }
         });
     }

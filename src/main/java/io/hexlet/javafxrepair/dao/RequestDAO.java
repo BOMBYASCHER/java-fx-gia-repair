@@ -1,11 +1,13 @@
 package io.hexlet.javafxrepair.dao;
 
+import io.hexlet.javafxrepair.model.Comment;
 import io.hexlet.javafxrepair.model.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,24 @@ public class RequestDAO extends BaseDAO {
             throw new RuntimeException(e);
         }
         return FXCollections.observableList(requests);
+    }
+
+    public static List<Comment> getRequestComments(Integer requestId) {
+        String sql = "SELECT * FROM comments WHERE requestid = ?";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, requestId);
+            var rs = ps.executeQuery();
+            List<Comment> comments = new ArrayList<>();
+            while (rs.next()) {
+                Integer commentId = rs.getInt("id");
+                String message = rs.getString("message");
+                Integer masterId = rs.getInt("masterid");
+                comments.add(new Comment(commentId, message, masterId, requestId));
+            }
+            return comments;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void addRequest(Request request) {
@@ -95,6 +115,22 @@ public class RequestDAO extends BaseDAO {
             ps.setInt(7, request.getMasterId());
             ps.setInt(8, request.getId());
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveComment(Comment comment) {
+        String sql = "INSERT INTO comments (message, masterid, requestid) VALUES (?, ?, ?)";
+        try (var ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, comment.getMessage());
+            ps.setInt(2, comment.getMasterId());
+            ps.setInt(3, comment.getRequestId());
+            ps.executeUpdate();
+            var id = ps.getGeneratedKeys();
+            if (id.next()) {
+                comment.setId(id.getInt("id"));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

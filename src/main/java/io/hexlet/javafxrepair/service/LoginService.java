@@ -1,8 +1,12 @@
 package io.hexlet.javafxrepair.service;
 
 import io.hexlet.javafxrepair.model.User;
+import lombok.Getter;
+import lombok.Setter;
 
 public class LoginService {
+    @Getter
+    @Setter
     private static User currentUser;
 
     public static boolean authenticate(String username, String password) {
@@ -16,13 +20,5 @@ public class LoginService {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-
-    public static void setCurrentUser(User currentUser) {
-        LoginService.currentUser = currentUser;
     }
 }

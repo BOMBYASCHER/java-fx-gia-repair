@@ -3,7 +3,6 @@ package io.hexlet.javafxrepair.dao;
 import io.hexlet.javafxrepair.model.User;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +69,7 @@ public class UserDAO extends BaseDAO {
             ps.setString(1, "Мастер");
             var rs = ps.executeQuery();
             List<User> masters = new ArrayList<>();
-            if (rs.next()) {
+            while (rs.next()) {
                 Integer id = rs.getInt("id");
                 String phone = rs.getString("phone");
                 String fio = rs.getString("fio");
@@ -80,24 +79,6 @@ public class UserDAO extends BaseDAO {
                 masters.add(new User(id, fio, phone, login, password, type));
             }
             return masters;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void createUser(User user) {
-        String sql = "INSERT INTO users (fio, phone, login, password, type) VALUES (?, ?, ?, ?, ?)";
-        try (var ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, user.getFio());
-            ps.setString(2, user.getPhone());
-            ps.setString(3, user.getLogin());
-            ps.setString(4, user.getPassword());
-            ps.setString(5, user.getType());
-            ps.executeUpdate();
-            var generatedKeys = ps.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                user.setId(generatedKeys.getInt(1));
-            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
