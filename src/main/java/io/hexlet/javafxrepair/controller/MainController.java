@@ -3,19 +3,15 @@ package io.hexlet.javafxrepair.controller;
 import io.hexlet.javafxrepair.RepairApplication;
 import io.hexlet.javafxrepair.dao.RequestDAO;
 import io.hexlet.javafxrepair.model.Request;
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.ChoiceBoxTableCell;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -47,31 +43,39 @@ public class MainController {
     @FXML
     private void initialize() {
         tableView.setEditable(true);
+        tableView.setRowFactory(requestTableView -> {
+            TableRow<Request> row = new TableRow<>();
+            row.setOnMouseClicked(mouseEvent -> {
+                Request request = row.getItem();
+                System.out.println(request);
+                EditRequestController controller = new EditRequestController(request);
+                createWindow("edit-request.fxml", controller);
+            });
+            return row;
+        });
         tableColumn1.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         tableColumn2.setCellValueFactory(new PropertyValueFactory<>("type"));
         tableColumn3.setCellValueFactory(new PropertyValueFactory<>("model"));
         tableColumn4.setCellValueFactory(new PropertyValueFactory<>("problemDescription"));
         tableColumn5.setCellValueFactory(new PropertyValueFactory<>("status"));
-        System.out.println("Log...........");
+//        tableColumn5.setCellFactory(new Callback<>() {
+//            @Override
+//            public TableCell<Request, String> call(TableColumn<Request, String> requestStringTableColumn) {
+//                var cbtc = new ChoiceBoxTableCell<Request, String>("Новая заявка", "В процессе ремонта", "Готово к выдаче") {
+//                    @Override
+//                    public void commitEdit(String s) {
+//                        super.commitEdit(s);
+//                        System.out.println("IT WORKS!");
+//                    }
+//                };
+//                return cbtc;
+//            }
+//        });
 
-        tableColumn5.setCellFactory(new Callback<TableColumn<Request, String>, TableCell<Request, String>>() {
-            @Override
-            public TableCell<Request, String> call(TableColumn<Request, String> requestStringTableColumn) {
+//        tableColumn5.setOnEditCommit(c -> {
+//            c.getRowValue().setStatus(c.getNewValue());
+//        });
 
-                var cbtc = new ChoiceBoxTableCell<Request, String>("Новая заявка", "В процессе ремонта", "Готово к выдаче") {
-                    @Override
-                    public void commitEdit(String s) {
-                        super.commitEdit(s);
-                        System.out.println("IT WORKS!");
-                    }
-                };
-                return cbtc;
-            }
-        });
-        tableColumn5.setOnEditCommit(c -> {
-            c.getRowValue().setStatus(c.getNewValue());
-            RequestDAO
-        });
 //        tableColumn5.setCellFactory(ChoiceBoxTableCell.forTableColumn("Новая заявка", "В процессе ремонта", "Готово к выдаче"));
 //        tableColumn5.setCellValueFactory(requestStringCellDataFeatures -> {
 //            requestStringCellDataFeatures.getTableColumn().setCellFactory(requestStringTableColumn -> {
@@ -115,17 +119,7 @@ public class MainController {
         tableView.setItems(RequestDAO.getRequests());
 
         addRequest.setOnMouseClicked(mouseEvent -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(RepairApplication.class.getResource("add-view.fxml"));
-            Scene scene = null;
-            try {
-                scene = new Scene(fxmlLoader.load());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Stage stage = new Stage();
-            stage.setTitle("Request");
-            stage.setScene(scene);
-            stage.show();
+            createWindow("add-view.fxml", null);
         });
 
 //        tableColumn5.setCellFactory(new Callback<TableColumn<Request, String>, TableCell<Request, String>>() {
@@ -140,5 +134,22 @@ public class MainController {
 //                return cell;
 //            }
 //        });
+    }
+
+    private void createWindow(String fxml, Object controller) {
+        FXMLLoader fxmlLoader = new FXMLLoader(RepairApplication.class.getResource(fxml));
+        Scene scene;
+        try {
+            if (controller != null) {
+                fxmlLoader.setController(controller);
+            }
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Request");
+        stage.setScene(scene);
+        stage.show();
     }
 }

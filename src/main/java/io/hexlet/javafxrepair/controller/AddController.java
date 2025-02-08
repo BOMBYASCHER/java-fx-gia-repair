@@ -1,9 +1,10 @@
 package io.hexlet.javafxrepair.controller;
 
 import io.hexlet.javafxrepair.dto.RequestForm;
+import io.hexlet.javafxrepair.model.User;
+import io.hexlet.javafxrepair.service.LoginService;
 import io.hexlet.javafxrepair.service.RequestService;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuButton;
@@ -12,6 +13,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.sql.Date;
+
+import static io.hexlet.javafxrepair.ErrorViewer.showError;
 
 public class AddController {
     @FXML
@@ -41,7 +44,10 @@ public class AddController {
 
     @FXML
     private void initialize() {
+        User user = LoginService.getCurrentUser();
         btnSubmit.setOnMouseClicked(mouseEvent -> onSubmitClick());
+        tfFullName.setText(user.getFio());
+        tfPhone.setText(user.getPhone());
         miProcess.setOnAction(actionEvent -> mbStatus.setText(miProcess.getText()));
         miFinish.setOnAction(actionEvent -> mbStatus.setText(miFinish.getText()));
         miNew.setOnAction(actionEvent -> mbStatus.setText(miNew.getText()));
@@ -69,21 +75,24 @@ public class AddController {
             );
             RequestService.saveRequest(requestForm);
         } catch (NumberFormatException e) {
-            showNumberError();
+            showError(e.getMessage(), "Ошибочный номер заявки.");
+
+        }
+        catch (NullPointerException e) {
+            showError("Заполните данные формы.", "Есть пустые поля");
+        } catch (Exception e) {
+            showError(e.getMessage(), "Что-то пошло не так.");
         }
     }
 
     private Integer parseInt(String text) throws NumberFormatException {
         if (Integer.parseInt(String.valueOf(text.charAt(0))) == 0) {
-            throw new NumberFormatException();
+            throw new NumberFormatException("Номер заявки не должен начинаться с нуля.");
         }
-        return Integer.parseInt(text);
-    }
-
-    private void showNumberError() {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Номер заявки должен быть числом не начинающимся с нуля.");
-        alert.setTitle("Incorrect form data");
-        alert.setHeaderText("Номер заявки указан неверно");
-        alert.show();
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Номер заявки не число.");
+        }
     }
 }

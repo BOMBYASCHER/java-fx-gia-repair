@@ -60,18 +60,43 @@ public class RequestDAO extends BaseDAO {
             ps.setObject(9, request.getMasterId());
             ps.setInt(10, request.getClientId());
             ps.execute();
-//            System.out.println("EXECUTE REQUEST INT: "+ps.executeUpdate());
-//            ps.executeUpdate();
-//            var generatedKeys = ps.getGeneratedKeys();
-//            if (generatedKeys.next()) {
-//                request.setId(generatedKeys.getInt(1));
-//            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public static boolean isIdAvailable(int id) {
+        String sql = "SELECT (id) FROM requests WHERE id=?";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            var rs = ps.executeQuery();
+            return !rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void save(Request request) {
-        String sql = "UPDATE requests SET ()"
+        String sql = "UPDATE requests " +
+                "SET (org_tech_type," +
+                " org_tech_model," +
+                " problem_description," +
+                " request_status," +
+                " completion_date," +
+                " repair_parts," +
+                " masterID) = (?, ?, ?, ?, ?, ?, ?) " +
+                "WHERE id = ?";
+        try (var ps = connection.prepareStatement(sql)) {
+            ps.setString(1, request.getType());
+            ps.setString(2, request.getModel());
+            ps.setString(3, request.getProblemDescription());
+            ps.setString(4, request.getStatus());
+            ps.setDate(5, request.getFinishDate());
+            ps.setString(6, request.getRepairParts());
+            ps.setInt(7, request.getMasterId());
+            ps.setInt(8, request.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
