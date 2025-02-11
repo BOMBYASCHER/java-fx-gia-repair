@@ -18,7 +18,7 @@ public class RequestDAO extends BaseDAO {
         try (var ps = connection.prepareStatement(sql)) {
             var rs = ps.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
+                Integer id = rs.getInt("id");
                 Date date = rs.getDate("start_date");
                 String type = rs.getString("org_tech_type");
                 String model = rs.getString("org_tech_model");
@@ -26,8 +26,8 @@ public class RequestDAO extends BaseDAO {
                 String status = rs.getString("request_status");
                 Date finish = rs.getDate("completion_date");
                 String repairParts = rs.getString("repair_parts");
-                int master = rs.getInt("masterID");
-                int client = rs.getInt("clientID");
+                Integer master = rs.getInt("masterID") == 0 ? null : rs.getInt("masterID");
+                Integer client = rs.getInt("clientID");
                 Request request = new Request(
                         id,
                         date,
@@ -112,7 +112,7 @@ public class RequestDAO extends BaseDAO {
             ps.setString(4, request.getStatus());
             ps.setDate(5, request.getFinishDate());
             ps.setString(6, request.getRepairParts());
-            ps.setInt(7, request.getMasterId());
+            ps.setObject(7, request.getMasterId());
             ps.setInt(8, request.getId());
             ps.executeUpdate();
         } catch (SQLException e) {

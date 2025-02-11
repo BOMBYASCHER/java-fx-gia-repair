@@ -1,19 +1,14 @@
 package io.hexlet.javafxrepair.controller;
 
-import io.hexlet.javafxrepair.RepairApplication;
+import io.hexlet.javafxrepair.Window;
 import io.hexlet.javafxrepair.dao.RequestDAO;
 import io.hexlet.javafxrepair.model.Request;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.sql.Date;
 
 public class MainController {
@@ -47,8 +42,10 @@ public class MainController {
             TableRow<Request> row = new TableRow<>();
             row.setOnMouseClicked(mouseEvent -> {
                 Request request = row.getItem();
-                EditRequestController controller = new EditRequestController(request);
-                createWindow("edit-request.fxml", controller);
+                if (request != null) {
+                    EditRequestController controller = new EditRequestController(request);
+                    new Window("edit-request.fxml", controller, "Редактирование заявки").show();
+                }
             });
             return row;
         });
@@ -65,24 +62,7 @@ public class MainController {
         tableView.setItems(RequestDAO.getRequests());
 
         addRequest.setOnMouseClicked(mouseEvent -> {
-            createWindow("add-view.fxml", null);
+            new Window("add-view.fxml", null, "Создание заявки").show();
         });
-    }
-
-    private void createWindow(String fxml, Object controller) {
-        FXMLLoader fxmlLoader = new FXMLLoader(RepairApplication.class.getResource(fxml));
-        Scene scene;
-        try {
-            if (controller != null) {
-                fxmlLoader.setController(controller);
-            }
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Stage stage = new Stage();
-        stage.setTitle("Request");
-        stage.setScene(scene);
-        stage.show();
     }
 }

@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
 <BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Label fx:id="labelRequestNumber" alignment="TOP_CENTER" text="Заявка №" BorderPane.alignment="TOP_CENTER">
@@ -13,7 +14,8 @@
          </font>
          <BorderPane.margin>
             <Insets />
-         </BorderPane.margin></Label>
+         </BorderPane.margin>
+      </Label>
    </top>
    <padding>
       <Insets bottom="20.0" right="20.0" top="20.0" />
@@ -24,7 +26,7 @@
             <Font size="14.0" />
          </font>
          <BorderPane.margin>
-            <Insets bottom="20.0" top="20.0" />
+            <Insets bottom="10.0" top="20.0" />
          </BorderPane.margin>
       </Button>
    </bottom>
@@ -62,35 +64,35 @@
             <Label layoutX="10.0" layoutY="10.0" text="Дата добавления" />
             <DatePicker fx:id="dpStartDate" disable="true" editable="false" layoutX="10.0" layoutY="27.0" opacity="0.85" />
             <Label layoutX="10.0" layoutY="52.0" text="Вид оргтехники" />
-            <TextField fx:id="tfType" layoutX="10.0" layoutY="69.0" />
+            <TextField fx:id="tfType" editable="false" layoutX="10.0" layoutY="69.0" />
             <Label layoutX="10.0" layoutY="94.0" text="Модель" />
-            <TextField fx:id="tfModel" layoutX="10.0" layoutY="111.0" />
+            <TextField fx:id="tfModel" editable="false" layoutX="10.0" layoutY="111.0" />
             <Label layoutX="10.0" layoutY="136.0" text="Описание проблемы" />
-            <TextArea fx:id="taProblem" layoutX="10.0" layoutY="153.0" prefHeight="0.0" prefWidth="250.0" wrapText="true" />
+            <TextArea fx:id="taProblem" editable="false" layoutX="10.0" layoutY="153.0" prefHeight="0.0" prefWidth="250.0" wrapText="true" />
             <Label layoutX="10.0" layoutY="178.0" text="ФИО клиента" />
-            <TextField fx:id="tfFullName" layoutX="10.0" layoutY="195.0" />
+            <TextField fx:id="tfFullName" editable="false" layoutX="10.0" layoutY="195.0" />
             <Label layoutX="10.0" layoutY="220.0" text="Номер телефона" />
-            <TextField fx:id="tfPhone" layoutX="10.0" layoutY="237.0" />
+            <TextField fx:id="tfPhone" editable="false" layoutX="10.0" layoutY="237.0" />
             <Label layoutX="10.0" layoutY="262.0" text="Статус заявки" />
-            <MenuButton fx:id="mbStatus" mnemonicParsing="false" text="MenuButton">
+            <MenuButton fx:id="mbStatus" mnemonicParsing="false" text="Статус...">
                <items>
                   <MenuItem fx:id="miNew" mnemonicParsing="false" text="Новая заявка" />
-                  <MenuItem fx:id="miProcess" mnemonicParsing="false" text="В процессе ремонта" />
+                     <MenuItem fx:id="miProcess" mnemonicParsing="false" text="В процессе ремонта" />
                   <MenuItem fx:id="miFinish" mnemonicParsing="false" text="Завершена" />
                </items>
             </MenuButton>
             <Label layoutX="10.0" layoutY="10.0" text="Дата окончания" />
-            <DatePicker fx:id="dpFinishDate" layoutX="10.0" layoutY="27.0" />
+            <DatePicker fx:id="dpFinishDate" editable="false" layoutX="10.0" layoutY="27.0" />
             <Label layoutX="10.0" layoutY="136.0" text="Запчасти" />
-            <TextArea fx:id="taRepairParts" layoutX="10.0" layoutY="153.0" prefHeight="0.0" prefWidth="250.0" wrapText="true" />
+            <TextArea fx:id="taRepairParts" editable="false" layoutX="10.0" layoutY="153.0" prefHeight="0.0" prefWidth="250.0" wrapText="true" />
             <Label layoutX="10.0" layoutY="262.0" text="Мастер" />
-            <MenuButton fx:id="mbMaster" mnemonicParsing="false" text="MenuButton">
+            <MenuButton fx:id="mbMaster" mnemonicParsing="false" text="ID мастера...">
                <items>
                </items>
             </MenuButton>
          </children>
          <padding>
-            <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+            <Insets left="50.0" right="50.0" top="20.0" />
          </padding>
       </VBox>
    </left>

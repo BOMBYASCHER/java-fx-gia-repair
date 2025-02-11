@@ -13,7 +13,7 @@ import java.util.List;
 public class RequestService {
     public static void saveRequest(RequestForm requestForm) throws Exception {
         User user = LoginService.getCurrentUser();
-        Request request = RequestMapper.toEntity(requestForm);
+        Request request = RequestMapper.toRequest(requestForm);
         request.setClientId(user.getId());
         user.setFio(requestForm.getFullName());
         user.setPhone(requestForm.getPhone());

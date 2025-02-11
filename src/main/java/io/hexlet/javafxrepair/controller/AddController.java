@@ -1,5 +1,6 @@
 package io.hexlet.javafxrepair.controller;
 
+import io.hexlet.javafxrepair.Window;
 import io.hexlet.javafxrepair.dto.RequestForm;
 import io.hexlet.javafxrepair.model.User;
 import io.hexlet.javafxrepair.service.LoginService;
@@ -13,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import static io.hexlet.javafxrepair.ErrorViewer.showError;
 
@@ -45,12 +47,16 @@ public class AddController {
     @FXML
     private void initialize() {
         User user = LoginService.getCurrentUser();
-        btnSubmit.setOnMouseClicked(mouseEvent -> onSubmitClick());
+        dpStartDate.setValue(LocalDate.now());
         tfFullName.setText(user.getFio());
         tfPhone.setText(user.getPhone());
         miProcess.setOnAction(actionEvent -> mbStatus.setText(miProcess.getText()));
         miFinish.setOnAction(actionEvent -> mbStatus.setText(miFinish.getText()));
         miNew.setOnAction(actionEvent -> mbStatus.setText(miNew.getText()));
+        btnSubmit.setOnMouseClicked(mouseEvent -> {
+            onSubmitClick();
+            Window.refreshMain();
+        });
     }
 
     private void onSubmitClick() {
@@ -86,10 +92,13 @@ public class AddController {
     }
 
     private Integer parseInt(String text) throws NumberFormatException {
-        if (Integer.parseInt(String.valueOf(text.charAt(0))) == 0) {
-            throw new NumberFormatException("Номер заявки не должен начинаться с нуля.");
+        if (text.isBlank()) {
+            throw new NullPointerException();
         }
         try {
+            if (Integer.parseInt(String.valueOf(text.charAt(0))) == 0) {
+                throw new NumberFormatException("Номер заявки не должен начинаться с нуля.");
+            }
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Номер заявки не число.");

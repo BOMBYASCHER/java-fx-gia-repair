@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserService {
     public static User getUser(Request request) {
-        return UserDAO.getUserById(request.getId())
+        return UserDAO.getUserById(request.getClientId())
                 .orElseThrow(RuntimeException::new);
     }
     public static User getUser(String login) {

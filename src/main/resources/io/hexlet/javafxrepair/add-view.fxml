@@ -18,21 +18,19 @@
       <Label text="Номер заявки" />
       <TextField fx:id="tfRequestNumber" />
       <Label layoutX="10.0" layoutY="10.0" text="Дата добавления" />
-<!--      <TextField fx:id="tfStartDate" layoutX="10.0" layoutY="27.0" />-->
       <DatePicker fx:id="dpStartDate" layoutX="10.0" layoutY="27.0" />
       <Label layoutX="10.0" layoutY="52.0" text="Вид оргтехники" />
       <TextField fx:id="tfType" layoutX="10.0" layoutY="69.0" />
       <Label layoutX="10.0" layoutY="94.0" text="Модель" />
       <TextField fx:id="tfModel" layoutX="10.0" layoutY="111.0" />
       <Label layoutX="10.0" layoutY="136.0" text="Описание проблемы" />
-<!--      <TextField fx:id="tfProblem" layoutX="10.0" layoutY="153.0" />-->
       <TextArea fx:id="taProblem" layoutX="10.0" layoutY="153.0" prefHeight="0.0" prefWidth="250.0" wrapText="true" />
       <Label layoutX="10.0" layoutY="178.0" text="ФИО клиента" />
       <TextField fx:id="tfFullName" layoutX="10.0" layoutY="195.0" />
       <Label layoutX="10.0" layoutY="220.0" text="Номер телефона" />
       <TextField fx:id="tfPhone" layoutX="10.0" layoutY="237.0" />
       <Label layoutX="10.0" layoutY="262.0" text="Статус заявки" />
-      <MenuButton fx:id="mbStatus" mnemonicParsing="false" text="MenuButton">
+      <MenuButton fx:id="mbStatus" mnemonicParsing="false" text="Статус...">
         <items>
           <MenuItem fx:id="miNew" mnemonicParsing="false" text="Новая заявка" />
           <MenuItem fx:id="miProcess" mnemonicParsing="false" text="В процессе ремонта" />

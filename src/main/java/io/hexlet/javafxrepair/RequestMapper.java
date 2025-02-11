@@ -6,7 +6,7 @@ import io.hexlet.javafxrepair.model.Request;
 import java.sql.Date;
 
 public class RequestMapper {
-    public static Request toEntity(RequestForm requestForm) {
+    public static Request toRequest(RequestForm requestForm) {
         Integer id = requestForm.getRequestNumber();
         Date startDate = requestForm.getStartDate();
         String type = requestForm.getType();
